@@ -84,8 +84,8 @@ if uploaded_file:
     selected_ras = st.sidebar.multiselect("Select RA(s)", ras, default=ras)
     filtered_df = df[df['RA'].isin(selected_ras)]
 
-    tab1, tab2, tab3, tab4= st.tabs([
-        "Raw Data", "Intra-Measurer Analysis", "Inter-Measurer ANOVA", "Summary Report"
+    tab1, tab2, tab3, tab4,tab5= st.tabs([
+        "Raw Data", "Intra-Measurer Analysis", "Inter-Measurer ANOVA", "Summary Report","JKK Vs RAs Measurements"
     ])
 
     with tab1:
@@ -258,6 +258,80 @@ if uploaded_file:
         """, unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
+    tab5 = st.tabs(["JKK R1 Comparison"])[0]
+
+    with tab5:
+        st.subheader("Compare Each RA’s Round 1 Measurements Against JKK")
+
+        # Filter Round 1 data only
+        round1_df = df[df['Round'] == 'R1'].copy()
+
+        # Get JKK's R1 data
+        jkk_df = round1_df[round1_df['RA'] == 'JKK'].copy()
+
+        if jkk_df.empty:
+            st.warning("No Round 1 measurements found for JKK.")
+        else:
+            comparison_results = []
+            other_ras = round1_df['RA'].unique()
+            other_ras = [ra for ra in other_ras if ra != 'JKK']
+
+            for ra in other_ras:
+                ra_df = round1_df[round1_df['RA'] == ra].copy()
+
+                # Merge JKK and current RA on infant_id
+                merged = pd.merge(
+                    jkk_df,
+                    ra_df,
+                    on='infant_id',
+                    suffixes=('_JKK', f'_{ra}')
+                )
+
+                if merged.empty:
+                    continue
+
+                for metric in ['Weight', 'Length', 'MUAC', 'hc']:
+                    jkk_vals = merged[f'{metric}_JKK']
+                    ra_vals = merged[f'{metric}_{ra}']
+                    valid = jkk_vals.notna() & ra_vals.notna()
+
+                    if valid.sum() > 0:
+                        diffs = np.abs(jkk_vals[valid] - ra_vals[valid])
+                        mad = diffs.mean()
+                        comparison_results.append({
+                            'RA': ra,
+                            'Anthropometry': metric,
+                            'Mean Absolute Difference': round(mad, 3),
+                            'Compared N': int(valid.sum())
+                        })
+
+            if comparison_results:
+                comparison_df = pd.DataFrame(comparison_results)
+
+                st.dataframe(
+                    comparison_df.pivot(index='RA', columns='Anthropometry', values='Mean Absolute Difference')
+                    .style.background_gradient(cmap='RdYlGn_r', axis=1),
+                    use_container_width=True
+                )
+
+                st.subheader("Visual Comparison with JKK (R1 Only)")
+
+                metric_to_plot = st.selectbox("Select Measurement", ['Weight', 'Length', 'MUAC', 'hc'])
+
+                plot_df = comparison_df[comparison_df['Anthropometry'] == metric_to_plot]
+                fig = px.bar(plot_df, x='RA', y='Mean Absolute Difference',
+                             color='Mean Absolute Difference', color_continuous_scale='RdYlGn_r',
+                             title=f"Mean Absolute Difference vs JKK for {metric_to_plot} (Round 1)")
+                st.plotly_chart(fig, use_container_width=True)
+
+                st.markdown("""
+                - Lower bars = closer agreement with JKK.
+                - Only infants measured by both JKK and the RA in Round 1 are used.
+                - Missing values are excluded from analysis.
+                """)
+            else:
+                st.info("No overlapping Round 1 data between JKK and other RAs.")
+
 else:
     st.info("Please upload a CSV file with anthropometric test data to begin.")
 
