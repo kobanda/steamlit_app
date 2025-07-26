@@ -261,7 +261,7 @@ if uploaded_file:
     #tab5 = st.tabs(["JKK R1 Comparison"])[0]
 
     with tab5:
-        st.subheader("Compare Each RA’s Measurements Against JKK")
+        st.subheader("Compare Each RA’s Measurements Against JKK Measurements")
 
         # Filter Round 2 data only
         round2_df = df[df['Round'] == 'R2'].copy()
@@ -314,7 +314,7 @@ if uploaded_file:
                     use_container_width=True
                 )
 
-                st.subheader("Visual Comparison with JKK")
+                st.subheader("Visual Comparison with JKK Measurements")
 
                 metric_to_plot = st.selectbox("Select Measurement", ['Weight', 'Length', 'MUAC', 'hc'])
 
@@ -326,7 +326,7 @@ if uploaded_file:
 
                 st.markdown("""
                 - Lower bars = closer agreement with JKK.
-                - Only infants measured by both JKK and the RA in are used.
+                - Only infants measured by both JKK and the RA are used.
                 - Missing values are excluded from analysis.
                 """)
             else:
