@@ -314,7 +314,7 @@ if uploaded_file:
                     use_container_width=True
                 )
 
-                st.subheader("Visual Comparison with JKK (R1 Only)")
+                st.subheader("Visual Comparison with JKK")
 
                 metric_to_plot = st.selectbox("Select Measurement", ['Weight', 'Length', 'MUAC', 'hc'])
 
