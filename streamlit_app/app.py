@@ -258,7 +258,7 @@ if uploaded_file:
         """, unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
-    tab5 = st.tabs(["JKK R1 Comparison"])[0]
+    #tab5 = st.tabs(["JKK R1 Comparison"])[0]
 
     with tab5:
         st.subheader("Compare Each RA’s Round 2 Measurements Against JKK")
