@@ -264,20 +264,20 @@ if uploaded_file:
         st.subheader("Compare Each RA’s Round 1 Measurements Against JKK")
 
         # Filter Round 1 data only
-        round1_df = df[df['Round'] == 'R1'].copy()
+        round2_df = df[df['Round'] == 'R2'].copy()
 
-        # Get JKK's R1 data
-        jkk_df = round1_df[round1_df['RA'] == 'JKK'].copy()
+        # Get JKK's R2 data
+        jkk_df = round2_df[round2_df['RA'] == 'JKK'].copy()
 
         if jkk_df.empty:
-            st.warning("No Round 1 measurements found for JKK.")
+            st.warning("No Round 2 measurements found for JKK.")
         else:
             comparison_results = []
-            other_ras = round1_df['RA'].unique()
+            other_ras = round2_df['RA'].unique()
             other_ras = [ra for ra in other_ras if ra != 'JKK']
 
             for ra in other_ras:
-                ra_df = round1_df[round1_df['RA'] == ra].copy()
+                ra_df = round2_df[round2_df['RA'] == ra].copy()
 
                 # Merge JKK and current RA on infant_id
                 merged = pd.merge(
