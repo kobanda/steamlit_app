@@ -261,9 +261,9 @@ if uploaded_file:
     tab5 = st.tabs(["JKK R1 Comparison"])[0]
 
     with tab5:
-        st.subheader("Compare Each RA’s Round 1 Measurements Against JKK")
+        st.subheader("Compare Each RA’s Round 2 Measurements Against JKK")
 
-        # Filter Round 1 data only
+        # Filter Round 2 data only
         round2_df = df[df['Round'] == 'R2'].copy()
 
         # Get JKK's R2 data
@@ -321,16 +321,16 @@ if uploaded_file:
                 plot_df = comparison_df[comparison_df['Anthropometry'] == metric_to_plot]
                 fig = px.bar(plot_df, x='RA', y='Mean Absolute Difference',
                              color='Mean Absolute Difference', color_continuous_scale='RdYlGn_r',
-                             title=f"Mean Absolute Difference vs JKK for {metric_to_plot} (Round 1)")
+                             title=f"Mean Absolute Difference vs JKK for {metric_to_plot} (Round 2)")
                 st.plotly_chart(fig, use_container_width=True)
 
                 st.markdown("""
                 - Lower bars = closer agreement with JKK.
-                - Only infants measured by both JKK and the RA in Round 1 are used.
+                - Only infants measured by both JKK and the RA in Round 2 are used.
                 - Missing values are excluded from analysis.
                 """)
             else:
-                st.info("No overlapping Round 1 data between JKK and other RAs.")
+                st.info("No overlapping Round 2 data between JKK and other RAs.")
 
 else:
     st.info("Please upload a CSV file with anthropometric test data to begin.")
