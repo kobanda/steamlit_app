@@ -85,7 +85,7 @@ if uploaded_file:
     filtered_df = df[df['RA'].isin(selected_ras)]
 
     tab1, tab2, tab3, tab4,tab5= st.tabs([
-        "Data", "Intra-Measurer Analysis", "Inter-Measurer ANOVA", "Summary Report","JKK Vs RAs Measurements"
+        "Data", "Intra-Measurer Analysis", "Inter-Measurer Analysis", "Summary Report","JKK Vs RAs Measurements"
     ])
 
     with tab1:
