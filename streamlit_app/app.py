@@ -144,7 +144,7 @@ if uploaded_file:
         st.plotly_chart(fig, use_container_width=True)
 
     with tab3:
-        st.subheader("Inter-Measurer Variability (ANOVA)")
+        st.subheader("Inter-Measurer Variability")
         anova_results = []
         for anthro in ['Weight', 'Length', 'MUAC', 'hc']:
             groups = [filtered_df[filtered_df['RA'] == ra][anthro].dropna().values
@@ -162,7 +162,7 @@ if uploaded_file:
         st.dataframe(anova_df.style.applymap(
             lambda x: "color: red" if x == "Yes" else "color: green",
             subset=['Significant Difference']), use_container_width=True)
-        st.markdown("### Interpretation of ANOVA Results")
+        st.markdown("### Interpretation of F-Test Results")
         with st.expander("What does this table mean? Click to understand"):
             st.markdown("""
             - This table compares how different RAs measured the same Anthro across children.
