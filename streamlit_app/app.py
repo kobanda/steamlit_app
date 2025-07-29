@@ -166,11 +166,11 @@ if uploaded_file:
         with st.expander("What does this table mean? Click to understand"):
             st.markdown("""
             - This table compares how different RAs measured the same Anthro across children.
-            - If the **p-value is less than 0.05**, it means the differences in measurements between RAs are **statistically significant**.
+            - If the p-value is less than 0.05(level of significance), it means the differences in measurements between RAs are statistically significant.
             - In simple terms:
-                - **Yes** under "Significant Difference" means **RAs are measuring differently**, and we should investigate.
-                - **No** means their measurements are **mostly aligned**, which is good!
-            - The **F-statistic** is a technical value used for comparison, higher values with low p-values usually mean bigger differences.
+                - **Yes** under "Significant Difference" means RAs are measuring differently, and we should investigate.
+                - **No** means their measurements are mostly aligned, which is good!
+            - The F-statistic is a technical value used for comparison, higher values with low p-values usually mean bigger differences.
             """)
     with tab4:
         st.markdown("<div class='report-container'>", unsafe_allow_html=True)
