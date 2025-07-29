@@ -89,7 +89,7 @@ if uploaded_file:
     ])
 
     with tab1:
-        st.subheader("Raw Data View")
+        st.subheader("Data View")
         st.dataframe(filtered_df, use_container_width=True)
 
     with tab2:
@@ -258,7 +258,7 @@ if uploaded_file:
         """, unsafe_allow_html=True)
 
         st.markdown("</div>", unsafe_allow_html=True)
-    #tab5 = st.tabs(["JKK R1 Comparison"])[0]
+    #tab5 = st.tabs(["JKK R2 Comparison"])[0]
 
     with tab5:
         st.subheader("Compare Each RA’s Measurements Against JKK Measurements")
@@ -331,10 +331,5 @@ if uploaded_file:
                 """)
             else:
                 st.info("No overlapping data between JKK and other RAs.")
-
 else:
     st.info("Please upload a CSV file with anthropometric test data to begin.")
-
-
-
-
